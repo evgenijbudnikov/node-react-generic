@@ -1,0 +1,81 @@
+.body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.Site-content {
+    flex: 1;
+}
+
+.footer-fixed{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%
+}
+
+.row-custom{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.progress{
+    position: absolute;
+    height: 4px;
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0;
+}
+
+.progress .determinate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #ffab40;
+    transition: width .5s ease-in;
+}
+
+nav{
+    background-color: #363434 !important;
+}
+
+nav a{
+    color: black;
+}
+
+
+footer{
+    background-color: dimgrey !important;
+
+}
+.page-footer{
+    color: gray !important;
+}
+
+.nav-wrapper{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+input.yellow-input {
+    border-bottom: 1px solid #616161!important;
+    box-shadow: 0 1px 0 0 #616161!important;
+}
+
+input.yellow-input + label {
+    color: #616161!important;
+}
+
+input.yellow-input:focus + label {
+    color: #ffab40!important;
+}
+
+input.yellow-input:focus {
+    border-bottom: 1px solid #ffab40!important;
+    box-shadow: 0 1px 0 0 #ffab40!important;
+}
