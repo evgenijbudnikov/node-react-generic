@@ -10,6 +10,8 @@ import {AdminPage} from "./admin/pages/AdminPage";
 import {UsersPage} from "./admin/pages/users/UsersPage";
 import {RolesPage} from "./admin/pages/roles/RolesPage";
 import {ArticlesManagementPage} from "./admin/pages/articles/ArticlesManagePage";
+import {RoleDetailPage} from "./admin/pages/roles/RoleDetailPage";
+import {DeleteRolePage} from "./admin/pages/roles/DeleteRolePage";
 
 export const useRoutes = isAuthenticated => {
     if(isAuthenticated){
@@ -18,6 +20,19 @@ export const useRoutes = isAuthenticated => {
                 <Route exact path="/admin/articles" exact={true}>
                     <ArticlesManagementPage />
                 </Route>
+
+                <Route exact path="/admin/roles/delete/:id" exact={true}>
+                    <DeleteRolePage />
+                </Route>
+
+                <Route exact path="/admin/roles/add" exact={true}>
+                    <RoleDetailPage />
+                </Route>
+
+                <Route exact path="/admin/roles/:id">
+                    <RoleDetailPage />
+                </Route>
+
                 <Route exact path="/admin/roles" exact={true}>
                     <RolesPage />
                 </Route>

@@ -30,7 +30,7 @@ export const Header = () => {
                                 <img src="/web2.png" style={{marginTop:6}}  height="55px"></img>
                                 </NavLink>
                             <ul className="right hide-on-med-and-down">
-
+                                { auth.isAuthenticated && (<li><NavLink to="/admin/roles">Admin</NavLink></li> ) }
                                 { auth.isAuthenticated && (<li><NavLink to="/dashboard">My Profile</NavLink></li> ) }
                                 {signButton}
 
