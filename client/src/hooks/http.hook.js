@@ -1,7 +1,9 @@
 import {useState, useCallback, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
-import {AuthContext} from "../context/AuthContext"
 import {LoaderContext} from "../context/LoaderContext"
+import {useAuth} from "./auth.hook"
+import {useDispatch} from "react-redux"
+import {onSignOut} from "../actions"
 
 export const useHttp = () => {
 
@@ -9,9 +11,10 @@ export const useHttp = () => {
     const [error, setError] = useState(null)
 
     const history = useHistory()
-    const auth = useContext(AuthContext)
+    const auth = useAuth()
 
     const {setMax, setValue, value} = useContext(LoaderContext)
+    const dispatch = useDispatch()
 
 
     const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
@@ -84,6 +87,7 @@ export const useHttp = () => {
                 setError(commits)
                 if(response.status === 401) {
                     auth.logout()
+                    dispatch(onSignOut())
                     history.push("/auth")
                 }
             }
@@ -97,10 +101,7 @@ export const useHttp = () => {
         }
     }, [])
 
-
     const clearError = useCallback(() => setError(null), [])
-
-
 
     return [ loading, request, error, clearError ]
 }

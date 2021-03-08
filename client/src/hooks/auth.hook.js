@@ -29,9 +29,16 @@ export const useAuth = () => {
         const data = JSON.parse(localStorage.getItem(storageName))
         if(data && data.token){
             login(data.token, data.userId)
+            console.log("useEffect from auth hook login")
+
+        }
+        else {
+            logout()
+            console.log("useEffect from auth hook logout")
+
         }
         setReady(true)
-    }, [login])
+    }, [login, logout])
 
     return {login, logout, token, userId, ready}
 }

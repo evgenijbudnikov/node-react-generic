@@ -4,32 +4,25 @@ import 'materialize-css'
 import {useRoutes} from "./routes";
 import {BrowserRouter as Router} from 'react-router-dom'
 import {useAuth} from "./hooks/auth.hook";
-import {AuthContext} from "./context/AuthContext"
 import {LoaderContext} from "./context/LoaderContext"
 import {Footer} from "./components/footer";
 import './static/main.css'
 import {Header} from "./components/header";
 import {ProgressLoader} from "./components/ProgressLoader";
-import {
-    progressBarFetch,
-    setOriginalFetch,
-    ProgressBar
-} from "react-fetch-progressbar";
+import {useSelector} from "react-redux";
+
 
 const {useState} = require("react");
 
-//setOriginalFetch(window.fetch)
-//window.fetch = progressBarFetch;
 
 function App() {
 
 
-
-
-    const {token, login, logout, userId, ready} = useAuth()
-    const isAuthenticated = !!token
+    const {ready} = useAuth()
+    const isAuthenticated = useSelector(({isAuthenticated}) => isAuthenticated)
 
     const routes = useRoutes(isAuthenticated)
+    console.log(isAuthenticated)
 
     const [max, setMax] = useState(0);
     const [value, setValue] = useState(0);
@@ -41,13 +34,9 @@ function App() {
     }
 
     return (
-
         <LoaderContext.Provider value={{setMax, setValue, max, value}}>
 
             <ProgressLoader v={value} m={max} />
-            <AuthContext.Provider value={{
-            token, login, logout, userId, isAuthenticated}}>
-
                 <Router>
                     <Header />
 
@@ -57,8 +46,6 @@ function App() {
                         </div>
                     </main>
                 </Router>
-
-            </AuthContext.Provider>
         </LoaderContext.Provider>
     )
 }

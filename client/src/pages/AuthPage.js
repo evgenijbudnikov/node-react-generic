@@ -1,8 +1,12 @@
 import React, {useEffect, useState, useContext} from 'react'
 import { useHttp } from '../hooks/http.hook'
 import {useMessage} from "../hooks/message.hook"
-import {AuthContext} from "../context/AuthContext"
 import { useHistory } from 'react-router-dom'
+import {onSignIn, onSignOut} from "../actions";
+import {useDispatch, useSelector} from "react-redux"
+import {useAuth} from "../hooks/auth.hook"
+
+
 
 
 export const AuthPage = () => {
@@ -10,16 +14,13 @@ export const AuthPage = () => {
 
     const message = useMessage()
     const history = useHistory()
+    const dispatch = useDispatch()
 
+    const auth = useAuth()
     const [loading, request, error, clearError] = useHttp()
     const [form, setForm] = useState({
         email:'', password:''
     })
-
-
-    const auth = useContext(AuthContext)
-
-
 
     useEffect(() => {
         message(error)
@@ -50,6 +51,7 @@ export const AuthPage = () => {
 
             if(data.token && data.userId){
                 auth.login(data.token, data.userId)
+                dispatch(onSignIn(data))
                 history.push("/dashboard");
             }
         }

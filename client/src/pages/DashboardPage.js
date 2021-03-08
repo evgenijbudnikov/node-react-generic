@@ -1,14 +1,11 @@
 import React, {useContext} from 'react'
 import { useState } from 'react'
 import { useHttp } from '../hooks/http.hook'
-import {AuthContext} from "../context/AuthContext"
-import {Loader} from '../components/Loader'
 import {UserDashboard} from '../components/UserDashboard'
 import Can from "../components/Can";
-import {ProgressLoader} from "../components/ProgressLoader";
+import {useSelector} from "react-redux";
 
 const {useEffect, useCallback} = require("react");
-
 
 
 export const DashboardPage = () => {
@@ -16,7 +13,9 @@ export const DashboardPage = () => {
     const [userData, setUserData] = useState()
     const [loading, request] = useHttp()
 
-    const {token, userId} = useContext(AuthContext)
+    const token = useSelector(({token}) => token)
+    const userId = useSelector(({userId}) => userId)
+
     const role = 'visitor'
     const fetchUserInfo = useCallback(async () => {
         try {
@@ -26,6 +25,8 @@ export const DashboardPage = () => {
 
             if(data && !data.status){
                 setUserData(data)
+                //set user info to redux store here
+
             }
 
         }

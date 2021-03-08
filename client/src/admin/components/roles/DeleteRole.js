@@ -1,13 +1,13 @@
 import React, {useContext} from 'react'
 import {useHttp} from "../../../hooks/http.hook";
-import {AuthContext} from "../../../context/AuthContext";
 import { useHistory } from 'react-router-dom'
+import {useSelector} from "react-redux";
 
 export const DeleteRole = ({role}) => {
 
     console.log(role)
     const [loading, request] = useHttp()
-    const {token} = useContext(AuthContext)
+    const token = useSelector(({token}) => token)
     const history = useHistory()
 
     const deleteHandler = async () => {

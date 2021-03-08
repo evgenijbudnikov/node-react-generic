@@ -4,9 +4,9 @@ import "materialize-css/dist/css/materialize.min.css";
 import {AdminNavBar} from "../../components/AdminNavBar"
 import {useState} from "react"
 import {useHttp} from "../../../hooks/http.hook";
-import {AuthContext} from "../../../context/AuthContext";
 import {RoleList} from "../../components/roles/RoleList";
 import { useHistory } from 'react-router-dom'
+import {useSelector} from "react-redux";
 
 const {useCallback} = require("react")
 const {useEffect} = require("react")
@@ -18,7 +18,8 @@ export const RolesPage = () => {
     const [header, setHeader] = useState()
     const [loading, request] = useHttp()
     const [roles, setRoles] = useState()
-    const {token, userId} = useContext(AuthContext)
+    const token = useSelector(({token}) => token)
+
     const history = useHistory()
 
     const fetchRoles = useCallback(async () => {

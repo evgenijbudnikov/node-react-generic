@@ -35,7 +35,7 @@ module.exports = class RoleService{
 
     async DeleteRole (role) {
         try{
-            const isRole = await this.roleProvider.IsRecordExists(query)
+            const isRole = await this.roleProvider.IsRecordExists(role)
             if(!isRole){
                 throw new Error(errorMessages.RoleNotExist)
             }

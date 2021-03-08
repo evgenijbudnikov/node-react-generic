@@ -1,20 +1,27 @@
 import React from 'react'
-const {AuthContext} = require('../context/AuthContext')
+import {useDispatch, useSelector} from "react-redux"
+import {onSignIn, onSignOut} from "../actions"
+import {useAuth} from "../hooks/auth.hook"
 
-const {useContext} = require("react");
-const {NavLink, useHistory} = require("react-router-dom");
+
+const {NavLink, useHistory} = require("react-router-dom")
 
 export const Header = () => {
-    const auth = useContext(AuthContext)
+
     const history = useHistory()
+    const isAuthenticated = useSelector(({isAuthenticated}) => isAuthenticated)
+    const dispatch = useDispatch()
+    const auth = useAuth()
 
     const logoutHandler = (event) => {
         event.preventDefault()
         auth.logout()
+        dispatch(onSignOut())
         history.push("/auth")
     }
     let signButton = {}
-    if(auth.isAuthenticated){
+
+    if(isAuthenticated){
         signButton = <li><a href="/" onClick={logoutHandler}>Sign Out</a></li>
     }
     else{
@@ -30,8 +37,8 @@ export const Header = () => {
                                 <img src="/web2.png" style={{marginTop:6}}  height="55px"></img>
                                 </NavLink>
                             <ul className="right hide-on-med-and-down">
-                                { auth.isAuthenticated && (<li><NavLink to="/admin/roles">Admin</NavLink></li> ) }
-                                { auth.isAuthenticated && (<li><NavLink to="/dashboard">My Profile</NavLink></li> ) }
+                                { isAuthenticated && (<li><NavLink to="/admin/roles">Admin</NavLink></li> ) }
+                                { isAuthenticated && (<li><NavLink to="/dashboard">My Profile</NavLink></li> ) }
                                 {signButton}
 
                             </ul>

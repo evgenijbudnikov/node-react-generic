@@ -1,8 +1,8 @@
 import React, {useEffect, useContext, useState, useCallback} from 'react'
 import {useHttp} from "../../../hooks/http.hook"
-import {AuthContext} from "../../../context/AuthContext"
 import { useHistory, useParams } from 'react-router-dom'
 import {DeleteRole} from "../../components/roles/DeleteRole";
+import {useSelector} from "react-redux";
 
 
 
@@ -12,7 +12,7 @@ export const DeleteRolePage = () => {
     const [loading, request] = useHttp()
     const [role, setRole] = useState()
     const history = useHistory()
-    const {token} = useContext(AuthContext)
+    const token = useSelector(({token}) => token)
 
 
     //move to helper

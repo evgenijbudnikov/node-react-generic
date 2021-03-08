@@ -1,7 +1,8 @@
 import React, {useEffect, useContext, useState, useCallback} from 'react'
 import {useHttp} from "../../../hooks/http.hook"
-import {AuthContext} from "../../../context/AuthContext"
 import { useHistory, useParams } from 'react-router-dom'
+import {useSelector} from "react-redux";
+import {useMessage} from "../../../hooks/message.hook";
 
 
 
@@ -9,13 +10,21 @@ export const RoleDetailPage = ({role}) => {
 
     const roleId = useParams().id
 
+    const message = useMessage()
     const [form, setForm] = useState({roleName: ''})
-    const [loading, request] = useHttp()
+    const [loading, request, error, clearError] = useHttp()
     const [method, setMethod] = useState()
 
     const history = useHistory()
-    const {token} = useContext(AuthContext)
+    const token = useSelector(({token}) => token)
 
+    const cancelHandler = () => {
+        redirectToRoles()
+    }
+
+    const redirectToRoles = () => {
+        history.push('/admin/roles')
+    }
 
     const saveHandler = async () => {
         try{
@@ -63,8 +72,10 @@ export const RoleDetailPage = ({role}) => {
         if(roleId){
             fetchRole()
         }
+        message(error)
+        clearError()
 
-    },[fetchRole])
+    },[fetchRole, error, message, clearError])
 
 
     return(
@@ -84,6 +95,13 @@ export const RoleDetailPage = ({role}) => {
                     onClick={saveHandler}
                     disabled={loading}>
                     Save
+                </button>
+                <button
+                    className="waves-effect waves-light btn grey darken-2"
+                    style={{marginRight: 15, backgroundColor:"#ffab40"}}
+                    onClick={cancelHandler}
+                    disabled={loading}>
+                    Cancel
                 </button>
             </div>
         </>

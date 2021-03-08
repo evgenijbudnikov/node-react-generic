@@ -73,7 +73,7 @@ module.exports = {
 
     deleteRole: async (req, res) => {
         try {
-            const role = req.params
+            const role = req.query
 
             const service = new RoleService()
             const result = await service.DeleteRole(role)

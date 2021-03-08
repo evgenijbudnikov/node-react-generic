@@ -1,13 +1,19 @@
 const express = require('express')
 const config = require('config')
 const mongoConnect = require('./loaders/mongoconnect.js')
+const apiRouter = require('./routes/api.router')
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger/swagger.options.json')
+
 
 const app = express()
 app.use(express.json({extended:true}))
 
-app.use('/api/auth', require('./routes/auth.routes'))
-app.use('/api/users', require('./routes/user.routes'))
-app.use('/api/admin/roles', require('./routes/role.router'))
+
+app.use('/', apiRouter)
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
+
 
 const PORT = config.get('port') || 5000
 
