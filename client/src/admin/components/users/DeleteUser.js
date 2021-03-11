@@ -1,37 +1,51 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import {useHttp} from "../../../hooks/http.hook";
 import { useHistory } from 'react-router-dom'
-import {useRepository} from "../../repository/roles.repository"
+import {useSelector} from "react-redux";
 
-export const DeleteRole = ({role}) => {
+export const DeleteUser = ({user}) => {
 
+    console.log(user)
+    const [loading, request] = useHttp()
+    const token = useSelector(({token}) => token)
     const history = useHistory()
-    const [sendRoleGetRequest, sendRoleRequest, loading] = useRepository()
 
     const deleteHandler = async () => {
-        const result = await sendRoleRequest(role.id, 'DELETE')
-        if(result){
-            redirectToRoles()
+        try{
+
+            const uri = '/api/users?_id='+user._id
+
+            const result = await request(uri, 'DELETE', null, {
+                Authorization : `Bearer ${token.token}`
+            })
+
+            if(result){
+                redirectToUsers()
+            }
+        }
+        catch (e) {
+            throw e
         }
     }
 
     const cancelHandler = () => {
-        redirectToRoles()
+        redirectToUsers()
     }
 
-    const redirectToRoles = () => {
-        history.push('/admin/roles')
+    const redirectToUsers = () => {
+        history.push('/admin/users')
     }
 
-    if(!role || role.length == 0){
-        return <p className="center">No role</p>
+    if(!user || user.length == 0){
+        return <p className="center">No user</p>
     }
     return(
         <div className="row">
             <div className="col s12 m12">
                 <div className="card blue-grey darken-1">
                     <div className="card-content white-text">
-                        <span className="card-title">Delete role: <b>{role.roleName}</b></span>
-                        <p>Are you sure you want to delete this role?</p>
+                        <span className="card-title">Delete user: <b>{user.email}</b></span>
+                        <p>Are you sure you want to delete this user?</p>
                     </div>
                     <div className="card-action" style={{marginTop: 25}}>
                         <button
@@ -45,7 +59,7 @@ export const DeleteRole = ({role}) => {
                             className="waves-effect waves-light btn grey darken-2"
                             onClick={cancelHandler}
                             disabled={loading}
-                           >
+                        >
                             Cancel
                         </button>
                     </div>

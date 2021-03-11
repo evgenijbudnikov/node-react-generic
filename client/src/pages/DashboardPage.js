@@ -20,7 +20,7 @@ export const DashboardPage = () => {
     const fetchUserInfo = useCallback(async () => {
         try {
             const data = await request('/api/users/' + userId, 'GET', null, {
-                Authorization: `Bearer ${token.token}`
+                Authorization: `Bearer ${token}`
             })
 
             if(data && !data.status){

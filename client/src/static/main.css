@@ -1,18 +1,40 @@
-.body {
+.main-container {
+    min-height: 100vh; /* will cover the 100% of viewport */
+    overflow: hidden;
+    display: block;
+    position: relative;
+    padding-bottom: 100px; /* height of your footer */
+}
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+
+body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.container {
+    margin-bottom: 200px !important;
 }
 
 .Site-content {
-    flex: 1;
+    position: relative;
+    min-height: 83vh;
 }
 
 .footer-fixed{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%
+    bottom: 0;
+    width: 100%;
+    height: 16.5rem;
+    background: #f9f9f9;
+    color: black !important;
 }
 
 .row-custom{
@@ -38,6 +60,7 @@
     bottom: 0;
     background-color: #ffab40;
     transition: width .5s ease-in;
+    z-index: 10;
 }
 
 nav{
@@ -48,15 +71,9 @@ nav a{
     color: black;
 }
 
-
-footer{
-    background-color: dimgrey !important;
-
+td {
+    padding: 5px 5px;
 }
-.page-footer{
-    color: gray !important;
-}
-
 .nav-wrapper{
     padding-left: 30px;
     padding-right: 30px;
@@ -78,4 +95,66 @@ input.yellow-input:focus + label {
 input.yellow-input:focus {
     border-bottom: 1px solid #ffab40!important;
     box-shadow: 0 1px 0 0 #ffab40!important;
+}
+
+.tabs .tab a {
+    color: #ffab40;
+}
+.tabs .tab a:hover, .tabs .tab a.active {
+    background-color: transparent;
+    color: #ffab40;
+}
+.tabs .indicator {
+    background-color: #ffab40;
+}
+
+
+.card {
+    margin: 10rem 0rem 10rem 0rem;
+    background-color: #fff;
+}
+
+.sel{
+    display: inline-block;
+    float: right;
+    position: absolute;
+    margin-top: -5px;
+}
+
+
+
+input.select-dropdown {
+    border-bottom: none !important;
+    margin: 0 0 0 0 !important;
+    width: 205px !important;
+}
+
+.highlight{
+    border: 1px solid #e0e0e0;
+    border-radius: 5px !important;
+    margin-top: 20px;
+}
+
+td{
+    padding-left: 25px;
+}
+tr{
+    cursor: pointer;
+}
+
+.collection a.collection-item {
+    color: black;
+}
+
+.secondary-content {
+    color: black;
+}
+.secondary-content:hover {
+    color: #ffab40;
+}
+.select-wrapper input.select-dropdown{
+    height: 33px;
+}
+.material-icons{
+    vertical-align: bottom;
 }

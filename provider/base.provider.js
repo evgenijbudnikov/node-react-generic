@@ -20,9 +20,9 @@ module.exports = class BaseProvider
         }
     }
 
-    async GetOneByField(field, value){
+    async GetOneByField(field){
         try{
-            return await this.model.findOne({[field]: value})
+            return await this.model.findOne(field)
         }
         catch (e) {
             return e

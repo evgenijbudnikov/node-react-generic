@@ -12,7 +12,6 @@ export const ProgressLoader = (v, m) => {
     }
 
     const onEndAnimationHandler = (element) => {
-        console.log('finished')
         if(element){
 
             setTimeout(()=>{

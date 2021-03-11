@@ -20,7 +20,12 @@ module.exports = class AuthService {
             }
 
             const hashedPassword = await bcrypt.hash(userModel.password, 12)
-            const newUser = new User({email: userModel.email, password: hashedPassword})
+
+            const newUser = new User({
+                email: userModel.email,
+                password: hashedPassword,
+                roles:['6047e7e03b674f23b02a7380']
+            })
 
             const createdUser = await newUser.save()
 
@@ -51,9 +56,9 @@ module.exports = class AuthService {
                 return
             }
 
-            const token = jwt.sign({ userId: user.id }, config.get('jwtSecret'), {expiresIn: '200000'})
+            const token = jwt.sign({ userId: user.id }, config.get('jwtSecret'), {expiresIn: '1h'})
 
-            return { token, userId: user.id }
+            return { token: token, userId: user.id }
         }
         catch (e) {
             console.log(e.message)

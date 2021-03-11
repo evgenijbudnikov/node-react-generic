@@ -22,7 +22,7 @@ function App() {
     const isAuthenticated = useSelector(({isAuthenticated}) => isAuthenticated)
 
     const routes = useRoutes(isAuthenticated)
-    console.log(isAuthenticated)
+    //console.log(isAuthenticated)
 
     const [max, setMax] = useState(0);
     const [value, setValue] = useState(0);
@@ -35,16 +35,17 @@ function App() {
 
     return (
         <LoaderContext.Provider value={{setMax, setValue, max, value}}>
-
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             <ProgressLoader v={value} m={max} />
                 <Router>
-                    <Header />
-
-                    <main className="Site-content">
-                        <div className="container">
-                            {routes}
-                        </div>
+                    <main className="main-container">
+                        <Header />
+                            <div className="container">
+                                {routes}
+                            </div>
+                        <Footer/>
                     </main>
+
                 </Router>
         </LoaderContext.Provider>
     )

@@ -1,22 +1,17 @@
-import React, {useEffect, useContext, useState, useCallback} from 'react'
-import {useHttp} from "../../../hooks/http.hook"
+import React, {useEffect, useState} from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import {useSelector} from "react-redux";
 import {useMessage} from "../../../hooks/message.hook";
-
+import {useRepository} from "../../repository/roles.repository"
 
 
 export const RoleDetailPage = ({role}) => {
 
     const roleId = useParams().id
+    const [sendRoleGetRequest, sendRoleRequest, loading] = useRepository()
 
     const message = useMessage()
     const [form, setForm] = useState({roleName: ''})
-    const [loading, request, error, clearError] = useHttp()
-    const [method, setMethod] = useState()
-
     const history = useHistory()
-    const token = useSelector(({token}) => token)
 
     const cancelHandler = () => {
         redirectToRoles()
@@ -27,20 +22,9 @@ export const RoleDetailPage = ({role}) => {
     }
 
     const saveHandler = async () => {
-        try{
-
-            const uri = roleId ? '/api/admin/roles?_id='+roleId : '/api/admin/roles'
-
-            const result = await request(uri, method, {...form}, {
-                Authorization : `Bearer ${token.token}`
-            })
-
-            if(result){
-                history.push('/admin/roles')
-            }
-        }
-        catch (e) {
-            throw e
+        const result = await sendRoleRequest(roleId, {...form})
+        if(result){
+            history.push('/admin/roles')
         }
     }
 
@@ -48,34 +32,18 @@ export const RoleDetailPage = ({role}) => {
         setForm({...form, [event.target.name]: event.target.value})
     }
 
-    const fetchRole = useCallback(async () => {
-        try{
-            //const roleId = role._id
-            const fetchedRole = await request('/api/admin/roles/' + roleId, 'GET', null, {
-                Authorization : `Bearer ${token.token}`
-            })
-
-            if(fetchedRole){
-                setForm({...form, roleName: fetchedRole.roleName})
-            }
+    const fetchRole = async () => {
+        const result = await sendRoleGetRequest(roleId)
+        if(result){
+            setForm({...form, roleName: result.roleName})
         }
-        catch (e) {
-            throw e
-        }
-    }, [token, request])
+    }
 
     useEffect(async () => {
-        const requestMethod = (roleId) ? ('PUT') : ('POST')
-
-        setMethod(requestMethod)
-
         if(roleId){
-            fetchRole()
+            await fetchRole()
         }
-        message(error)
-        clearError()
-
-    },[fetchRole, error, message, clearError])
+    },[])
 
 
     return(

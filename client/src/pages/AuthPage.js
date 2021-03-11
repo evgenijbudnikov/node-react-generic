@@ -50,7 +50,7 @@ export const AuthPage = () => {
             const data = await request('/api/auth/login', 'POST', {...form})
 
             if(data.token && data.userId){
-                auth.login(data.token, data.userId)
+                auth.login(data.token.token, data.userId)
                 dispatch(onSignIn(data))
                 history.push("/dashboard");
             }

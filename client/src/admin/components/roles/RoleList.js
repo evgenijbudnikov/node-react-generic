@@ -5,54 +5,34 @@ import { useHistory } from 'react-router-dom'
 
 export const RoleList = ({roles}) => {
 
-    console.log(roles)
     const history = useHistory()
 
     if(!roles || roles.length == 0){
         return <p className="center">'No roles'</p>
     }
-    const deleteHandler = (evenet) => {
-        history.push('/admin/roles/delete/'+evenet.target._id)
+    const deleteHandler = (event) => {
+        history.push('/admin/roles/delete/'+event.target._id)
     }
+
     return(
-        <>
-        <table className="highlight">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Action</th>
-            </tr>
-            </thead>
 
-            <tbody>
-
+        <div className="collection">
             {
                 roles.map((role)=>{
                     return(
-                        <tr key={role._id}>
-                            <td>{role.roleName}</td>
-                            <td>
-                                <Link
-                                    style={{marginRight: 15, backgroundColor:"#ffab40"}}
-                                    className="waves-effect waves-light btn"
-                                    to={`/admin/roles/${role._id}`}>
-                                    View
+
+                        <Link key={role._id} to={`/admin/roles/${role._id}`} className="collection-item">
+                                {role.roleName}
+                                <Link to={`/admin/roles/delete/${role._id}`} className="secondary-content">
+                                    <i className="material-icons">
+                                        delete
+                                    </i>
                                 </Link>
-                                <Link
-                                    style={{marginRight: 15, backgroundColor:"#ffab40"}}
-                                    className="waves-effect waves-light btn grey darken-2"
-                                    to={`/admin/roles/delete/${role._id}`}>
-                                    Delete
-                                </Link>
-                            </td>
-                        </tr>
+                        </Link>
                     )
                 })
             }
+        </div>
 
-            </tbody>
-        </table>
-
-        </>
     )
 }

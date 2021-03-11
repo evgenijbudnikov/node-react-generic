@@ -1,29 +1,29 @@
 import React, {useEffect, useContext, useState, useCallback} from 'react'
 import {useHttp} from "../../../hooks/http.hook"
 import { useHistory, useParams } from 'react-router-dom'
-import {DeleteRole} from "../../components/roles/DeleteRole";
+import {DeleteUser} from "../../components/users/DeleteUser";
 import {useSelector} from "react-redux";
 
 
 
-export const DeleteRolePage = () => {
+export const DeleteUserPage = () => {
 
-    const roleId = useParams().id
+    const userId = useParams().id
     const [loading, request] = useHttp()
-    const [role, setRole] = useState()
+    const [user, setUser] = useState()
     const history = useHistory()
     const token = useSelector(({token}) => token)
 
 
     //move to helper
-    const fetchRole = useCallback(async () => {
+    const fetchUser = useCallback(async () => {
         try{
-            const fetchedRole = await request('/api/admin/roles/' + roleId, 'GET', null, {
+            const fetchedUser = await request('/api/users/' + userId, 'GET', null, {
                 Authorization : `Bearer ${token}`
             })
 
-            if(fetchedRole){
-                setRole(fetchedRole)
+            if(fetchedUser){
+                setUser(fetchedUser)
             }
         }
         catch (e) {
@@ -32,16 +32,16 @@ export const DeleteRolePage = () => {
     }, [token, request])
 
     useEffect(async () => {
-        if(roleId){
-            fetchRole()
+        if(userId){
+            fetchUser()
         }
-    },[fetchRole])
+    },[fetchUser])
 
     if (loading) {
         return <></>
     }
 
     return(
-        <DeleteRole role={role}/>
+        <DeleteUser user={user}/>
     )
 }
