@@ -22,10 +22,11 @@ export const RoleList = ({roles}) => {
                     return(
 
                         <Link key={role._id} to={`/admin/roles/${role._id}`} className="collection-item">
+                                <i className="material-icons verified-user">accessibility</i>
                                 {role.roleName}
                                 <Link to={`/admin/roles/delete/${role._id}`} className="secondary-content">
                                     <i className="material-icons">
-                                        delete
+                                        delete_forever
                                     </i>
                                 </Link>
                         </Link>

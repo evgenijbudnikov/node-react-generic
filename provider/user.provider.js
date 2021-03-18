@@ -1,6 +1,8 @@
 const User = require('../models/User')
 const RoleProvider = require('../provider/roles.provider')
 const BaseProvider = require('../provider/base.provider')
+const UserRolesProvider = require('../provider/userroles.provider')
+
 
 module.exports = class UserProvider extends BaseProvider{
 
@@ -8,6 +10,7 @@ module.exports = class UserProvider extends BaseProvider{
         super(User)
         this.model = User
         this.roleProvider = new RoleProvider()
+        this.userRolesProvider = new UserRolesProvider()
     }
 
     async UpdateUser (query, user) {
@@ -30,15 +33,6 @@ module.exports = class UserProvider extends BaseProvider{
         }
     }
 
-    async DeleteRole (query) {
-        try{
-            return await this.model.deleteOne(query)
-        }
-        catch (e) {
-            return e
-        }
-    }
-
     async GetAllUsers() {
         try{
             let result = {}
@@ -52,6 +46,16 @@ module.exports = class UserProvider extends BaseProvider{
             result.users = users
 
             return result
+        }
+        catch (e) {
+            return e
+        }
+    }
+
+    async DeleteUser (query) {
+        try{
+            await this.userRolesProvider.DeleteUserRoles(query.userId)
+            return await this.model.deleteOne(query)
         }
         catch (e) {
             return e

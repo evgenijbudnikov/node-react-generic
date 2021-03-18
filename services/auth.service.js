@@ -23,11 +23,19 @@ module.exports = class AuthService {
 
             const newUser = new User({
                 email: userModel.email,
-                password: hashedPassword,
-                roles:['6047e7e03b674f23b02a7380']
+                password: hashedPassword
             })
 
             const createdUser = await newUser.save()
+            const serializedUser = createdUser.toObject({ getters: true })
+
+            if(!serializedUser.id){
+                throw ({
+                    status:400,
+                    message:'Error while creating user'
+                })
+                return
+            }
 
             return createdUser
         }

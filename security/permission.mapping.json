@@ -1,0 +1,6 @@
+{
+  "get" : "read",
+  "post" : "create",
+  "put" : "write",
+  "delete" : "delete"
+}

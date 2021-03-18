@@ -1,4 +1,5 @@
 const UserProvider = require('../provider/user.provider')
+const UserRolesProvider = require('../provider/userroles.provider')
 const errorMessages = require('../constant/error.messages')
 
 
@@ -6,6 +7,7 @@ module.exports = class UserService {
 
     constructor() {
         this.userProvider = new UserProvider()
+        this.userRolesProvider = new UserRolesProvider()
     }
 
     async GetUserById (id) {
@@ -41,14 +43,32 @@ module.exports = class UserService {
             throw e
         }
     }
-    //async GetUserByEmail(email) {
-    //    try{
-    //        return await this.userProvider.GetByField("email", email)
-    //    }
-     //   catch (e) {
-    //        return e
-    //    }
-    //}
+
+    async AssignRoles(userId, roles) {
+        try{
+            return await this.userRolesProvider.AssignRolesToUser(userId, roles)
+        }
+        catch (e) {
+            return e
+        }
+    }
+    async UpdateAssignedRoles(query, roles) {
+        try{
+            return await this.userRolesProvider.UpdateAssignedRolesToUser(query, roles)
+        }
+        catch (e) {
+            return e
+        }
+    }
+
+    async GetUserRoles(userId) {
+        try{
+            return await this.userRolesProvider.GetUserRoles(userId)
+        }
+        catch (e) {
+            return e
+        }
+    }
 
     async GetAllUsers(){
         try{
@@ -65,7 +85,7 @@ module.exports = class UserService {
             if(!isUser){
                 throw new Error(errorMessages.RoleNotExist)
             }
-            return await this.userProvider.DeleteRole(user)
+            return await this.userProvider.DeleteUser(user)
         }
         catch (e) {
             throw e

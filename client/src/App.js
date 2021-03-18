@@ -10,6 +10,7 @@ import './static/main.css'
 import {Header} from "./components/header";
 import {ProgressLoader} from "./components/ProgressLoader";
 import {useSelector} from "react-redux";
+import {AdminNavBar} from "./admin/components/AdminNavBar";
 
 
 const {useState} = require("react");
@@ -40,6 +41,7 @@ function App() {
                 <Router>
                     <main className="main-container">
                         <Header />
+                        {isAuthenticated ? <AdminNavBar /> : ''}
                             <div className="container">
                                 {routes}
                             </div>

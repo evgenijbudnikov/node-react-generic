@@ -9,8 +9,8 @@ module.exports = {
             const service = new RoleService()
             const role = await service.GetRoleById(userId)
 
-            console.log(req.params)
-            console.log(role)
+            //console.log(req.params)
+            //console.log(role)
 
             if(!role){
                 return await res.status(constants.NOT_FOUND)

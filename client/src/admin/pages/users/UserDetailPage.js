@@ -32,7 +32,7 @@ export const UserDetailPage = ({user}) => {
             const uri = userId ? '/api/users?_id='+userId : '/api/users'
 
             const result = await request(uri, method, {...form}, {
-                Authorization : `Bearer ${token.token}`
+                Authorization : `Bearer ${token}`
             })
 
             if(result){

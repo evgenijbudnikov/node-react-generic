@@ -37,15 +37,14 @@ export const RolesPage = () => {
     return(
 
         <div className="row">
-            <AdminNavBar />
-            <h3>Manage Roles</h3>
+            <h4>Manage Roles</h4>
 
             {!loading && <RoleList roles={roles} />}
 
             <div className="card-action" style={{marginTop: 25}}>
                 <button
                     className="waves-effect waves-light btn"
-                    style={{marginRight: 15, backgroundColor:"#ffab40"}}
+                    style={{marginRight: 15, backgroundColor:"#2ea44f"}}
                     onClick={createHandler}>
                     Create
                 </button>

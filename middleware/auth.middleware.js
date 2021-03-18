@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
         const token = req.headers.authorization.split(' ')[1] // "Bearer TOKEN"
 
         if (!token) {
-            console.log(token)
+
             return res.status(401).json({ message: 'Нет авторизации!!!' })
         }
 

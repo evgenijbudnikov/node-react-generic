@@ -2,8 +2,8 @@ import rules from "../rbac-rules";
 
 const check = (rules, role, action, data) => {
     const permissions = rules[role];
-    console.log(role)
-    console.log(action)
+    //console.log(role)
+    //console.log(action)
     if (!permissions) {
         // role is not present in the rules
         return false;

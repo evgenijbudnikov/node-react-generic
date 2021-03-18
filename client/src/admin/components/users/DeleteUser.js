@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 
 export const DeleteUser = ({user}) => {
 
-    console.log(user)
+    //console.log(user)
     const [loading, request] = useHttp()
     const token = useSelector(({token}) => token)
     const history = useHistory()
@@ -16,7 +16,7 @@ export const DeleteUser = ({user}) => {
             const uri = '/api/users?_id='+user._id
 
             const result = await request(uri, 'DELETE', null, {
-                Authorization : `Bearer ${token.token}`
+                Authorization : `Bearer ${token}`
             })
 
             if(result){

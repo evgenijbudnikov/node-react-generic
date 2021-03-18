@@ -33,9 +33,15 @@ export const Header = () => {
 
                     <div className="nav-wrapper">
                         <div className="col s12">
-                            <NavLink className="brand-logo"  to="/">
-                                <img src="/web2.png" style={{marginTop:6}}  height="55px"></img>
+                            <NavLink  to="/">
+                                <i className="material-icons-nav">
+                                    settings_applications
+                                </i>
                                 </NavLink>
+                            <ul className="left hide-on-med-and-down">
+                                <li><NavLink className="brand-logo" to="/">Generic Website</NavLink></li>
+
+                            </ul>
                             <ul className="right hide-on-med-and-down">
                                 { isAuthenticated && (<li><NavLink to="/admin/roles">Admin</NavLink></li> ) }
                                 { isAuthenticated && (<li><NavLink to="/dashboard">My Profile</NavLink></li> ) }

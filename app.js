@@ -14,7 +14,6 @@ app.use('/', apiRouter)
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 
-
 const PORT = config.get('port') || 5000
 
 async function start() {

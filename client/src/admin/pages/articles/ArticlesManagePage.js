@@ -13,7 +13,6 @@ export const ArticlesManagementPage = () => {
     return(
         <div className="row">
 
-            <AdminNavBar />
             <h1>Articles Management Page</h1>
 
         </div>

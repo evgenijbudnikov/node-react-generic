@@ -18,6 +18,7 @@ body {
     flex-direction: column;
     height: 100%;
     position: relative;
+    font-size: 14px;
 }
 
 .container {
@@ -64,7 +65,9 @@ body {
 }
 
 nav{
-    background-color: #363434 !important;
+    background-color: #24292e !important;
+    height: 70px;
+    line-height: 70px;
 }
 
 nav a{
@@ -98,11 +101,16 @@ input.yellow-input:focus {
 }
 
 .tabs .tab a {
-    color: #ffab40;
+    color: black;
+}
+.tabs .tab a:hover {
+    color: gray;
+}
+.tab a.active {
+    font-weight: bold;
 }
 .tabs .tab a:hover, .tabs .tab a.active {
-    background-color: transparent;
-    color: #ffab40;
+    color: gray;
 }
 .tabs .indicator {
     background-color: #ffab40;
@@ -132,29 +140,186 @@ input.select-dropdown {
 .highlight{
     border: 1px solid #e0e0e0;
     border-radius: 5px !important;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 td{
     padding-left: 25px;
 }
-tr{
-    cursor: pointer;
+td a{
+    color: #24292e;
 }
+td a:hover{
+    color: #ffab40;
+    text-decoration: underline;
+}
+
 
 .collection a.collection-item {
     color: black;
 }
 
 .secondary-content {
-    color: black;
+    color: #79b8ff;
 }
 .secondary-content:hover {
-    color: #ffab40;
+    color: #ffab40 !important;
 }
 .select-wrapper input.select-dropdown{
     height: 33px;
 }
 .material-icons{
     vertical-align: bottom;
+    color: #79b8ff;
+}
+.material-icons-edit {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    color: #24292e;
+}
+
+.material-icons-nav {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 51px;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    color: white;
+    padding-top: 3px;
+}
+
+.material-icons-edit:hover {
+    color: #ffab40;
+}
+
+.admin-nav-item i{
+    color: gray;
+}
+
+
+
+nav .nav-wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.admin-nav{
+
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 47px;
+    width: 100%;
+    margin: 0 auto;
+    line-height: 46px;
+    background-color: #f9f9f9;
+    min-height: 110px;
+}
+
+.admin-nav-item i{
+    color: gray;
+}
+
+.admin-nav-item{
+    height: 47px;
+    width: auto;
+}
+.admin-nav-item:hover{
+    border-bottom: 1px solid;
+    border-bottom-color: lightgray;
+}
+.admin-nav-item:hover *{
+    color: gray;
+}
+.admin-nav-item a{
+    color: gray;
+    display: inline-flex;
+    width: 100%;
+    font-size: 14px;
+    overflow: hidden;
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.admin-nav-item a.active{
+    border-bottom: 2px solid;
+    border-bottom-color: #ffab40;
+    font-weight: bold;
+    color: black;
+}
+.admin-nav-item a.active *{
+    color: black;
+}
+.admin-nav-container{
+    padding-left: 50px;
+    position:absolute;
+    bottom: 0;
+    display: inline-flex;
+    width: 100%;
+    border-bottom: 1px solid;
+    border-bottom-color: lightgray;
+}
+nav .brand-logo {
+    margin-left: 65px;
+    font-size: 1.1rem;
+}
+
+.user-roles-list{
+    display: inline-block;
+    width: 30%;
+    text-align: center;
+}
+
+
+.user-email-list{
+
+}
+.user-list{
+    display: flex !important;
+}
+.verified-user{
+    margin-right: 15px;
+}
+.user-role-list-email-container{
+    width: 100%;
+}
+.user-role-list-email-container div{
+    width: fit-content;
+    margin: 0 auto;
+}
+h4{
+    padding-bottom: 20px;
+}
+.collection{
+    border-radius: 5px;
+}
+.collection a.collection-item {
+    transition: 0s;
+
+}
+
+.user-email-link{
+    color: black;
+}
+.user-email-link:hover{
+    text-decoration: underline;
+    color: dodgerblue;
 }

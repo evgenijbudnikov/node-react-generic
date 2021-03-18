@@ -40,8 +40,6 @@ export const useHttp = () => {
             let receivedLength = 0
             let chunks = []
 
-            //setValue(80)
-
             while (true){
 
                 const {done, value} = await reader.read()
@@ -51,8 +49,6 @@ export const useHttp = () => {
                 }
                 chunks.push(value)
                 receivedLength += value.length
-
-                console.log(`Received ${receivedLength} from ${contentLength}`)
             }
 
             let chunksAll = new Uint8Array(receivedLength)
@@ -64,7 +60,7 @@ export const useHttp = () => {
             }
 
             const delta = Math.floor( receivedLength / 5 )
-            console.log('delta:'+delta)
+
             let j = 0
             for (let i = 1; i < receivedLength; i=i+delta) {
                 j+=1
@@ -72,7 +68,6 @@ export const useHttp = () => {
                     continue
                 }
                 const progress = Math.round((i /receivedLength) * 100)
-                //console.log(progress)
                 setValue(progress)
 
             }
