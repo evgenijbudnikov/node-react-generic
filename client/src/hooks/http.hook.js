@@ -2,7 +2,7 @@ import {useState, useCallback, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
 import {LoaderContext} from "../context/LoaderContext"
 import {useAuth} from "./auth.hook"
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import {onSignOut} from "../actions"
 
 export const useHttp = () => {
@@ -15,19 +15,22 @@ export const useHttp = () => {
 
     const {setMax, setValue, value} = useContext(LoaderContext)
     const dispatch = useDispatch()
+    const token = useSelector(({token}) => token)
 
 
     const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
 
         setLoading(true)
         setValue(1)
+
         try {
+
+            headers['Authorization'] = `Bearer ${token}`
+
             if (body) {
                 body = JSON.stringify(body)
                 headers['Content-Type'] = 'application/json'
             }
-
-
             const response = await fetch(url, {method, body, headers})
 
             setValue(20)

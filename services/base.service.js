@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-module.exports = class BaseProvider
+module.exports = class BaseService
 {
     constructor(model)
     {

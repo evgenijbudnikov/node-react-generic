@@ -5,9 +5,9 @@ module.exports = {
 
     getRoleById: async (req, res) => {
         try {
-            const userId = req.params.id
+            const id = req.query.id
             const service = new RoleService()
-            const role = await service.GetRoleById(userId)
+            const role = await service.GetById(id)
 
             //console.log(req.params)
             //console.log(role)
@@ -41,10 +41,13 @@ module.exports = {
         }
     },
 
-    getAllRoles: async (req, res) => {
+    getAllRoles: async (req, res, next) => {
         try {
+            if(req.query.id){
+                return next()
+            }
             const service = new RoleService()
-            const roles = await service.GetAllRoles()
+            const roles = await service.GetAll()
 
             await res.status(constants.OK)
                 .json(roles)

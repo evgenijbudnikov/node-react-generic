@@ -1,14 +1,14 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import {useRepository} from "../../repository/roles.repository"
+import {useEntityRepository} from "../../../repository/entity.repository"
 
 export const DeleteRole = ({role}) => {
 
     const history = useHistory()
-    const [sendRoleGetRequest, sendRoleRequest, loading] = useRepository()
+    const [getAll, createOrUpdate, remove, getById, loading] = useEntityRepository("/api/admin/roles")
 
     const deleteHandler = async () => {
-        const result = await sendRoleRequest(role.id, 'DELETE')
+        const result = await remove(role._id)
         if(result){
             redirectToRoles()
         }

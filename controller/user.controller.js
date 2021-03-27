@@ -28,6 +28,7 @@ module.exports = {
 
     createUser: async (req, res) => {
         try {
+
             const user = req.body
             const service = new UserService()
             const newRole = await service.CreateUser(user)
@@ -41,8 +42,11 @@ module.exports = {
         }
     },
 
-    getAllUsers: async (req, res) => {
+    getAllUsers: async (req, res, next) => {
         try {
+            if(req.query.userId){
+                return next()
+            }
             const service = new UserService()
             const users = await service.GetAllUsers()
 
@@ -63,21 +67,6 @@ module.exports = {
 
             await res.status(constants.OK)
                 .json(updatedRole)
-
-        }
-        catch (e) {
-            await res.status(constants.BAD_REQUEST)
-                .json({message: e.message})
-        }
-    },
-
-    assignRolesToUser: async (req, res) => {
-        try {
-            const service = new UserService()
-            const updatedRoles = await service.AssignRoles(req.query.userId, req.body.roles)
-
-            await res.status(constants.OK)
-                .json(updatedRoles)
 
         }
         catch (e) {

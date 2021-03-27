@@ -1,18 +1,23 @@
-const UserProvider = require('../provider/user.provider')
-const UserRolesProvider = require('../provider/userroles.provider')
 const errorMessages = require('../constant/error.messages')
+const User = require('../models/User')
+const bcrypt = require('bcryptjs')
+const BaseService = require('../services/base.service')
+const RoleService = require('../services/role.service')
 
 
-module.exports = class UserService {
+
+module.exports = class UserService extends BaseService{
 
     constructor() {
-        this.userProvider = new UserProvider()
-        this.userRolesProvider = new UserRolesProvider()
+        super(User)
+        this.model = User
+        this.roleProvider = new RoleService()
     }
 
-    async GetUserById (id) {
+    async UpdateUser (query, user) {
         try{
-            return await this.userProvider.GetById(id)
+            const updated = await this.model.updateOne(query, user)
+            return updated
         }
         catch (e) {
             return e
@@ -21,75 +26,66 @@ module.exports = class UserService {
 
     async CreateUser (user) {
         try{
-            const isRole = await this.userProvider.IsRecordExists(user)
-            if(isRole){
-                throw new Error(errorMessages.RoleExist)
+
+            const candidate = await this.GetOneByField({ email: user.email })
+
+            if(candidate){
+                throw ({
+                    status:400,
+                    message:'user with this email already exists'
+                })
+                return
             }
-            return await this.userProvider.CreateUser(user)
-        }
-        catch (e) {
-            throw e
-        }
-    }
-    async UpdateUser (query, user) {
-        try{
-            const isRole = await this.userProvider.IsRecordExists(query)
-            if(!isRole){
-                throw new Error(errorMessages.RoleNotExist)
+
+            const hashedPassword = await bcrypt.hash(user.password, 12)
+
+            const newUser = new User({email : user.email, password: hashedPassword, roles:["6047e7e03b674f23b02a7380"]})
+            const createdUser = await newUser.save()
+
+            const serializedUser = createdUser.toObject({ getters: true })
+
+            if(!serializedUser.id){
+                throw ({
+                    status:400,
+                    message:'Something went wrong while creating user'
+                })
+                return
             }
-            return await this.userProvider.UpdateUser(query, user)
-        }
-        catch (e) {
-            throw e
-        }
-    }
 
-    async AssignRoles(userId, roles) {
-        try{
-            return await this.userRolesProvider.AssignRolesToUser(userId, roles)
+            return createdUser
         }
         catch (e) {
-            return e
-        }
-    }
-    async UpdateAssignedRoles(query, roles) {
-        try{
-            return await this.userRolesProvider.UpdateAssignedRolesToUser(query, roles)
-        }
-        catch (e) {
+            throw new Error(e)
             return e
         }
     }
 
-    async GetUserRoles(userId) {
+    async GetAllUsers() {
         try{
-            return await this.userRolesProvider.GetUserRoles(userId)
+
+            let result = {}
+
+            let [roles, users] = await Promise.all([
+                this.roleProvider.GetAll(),
+                this.model.find().populate({path:'roles', model:'Role'})
+            ]);
+
+            result.roles = roles
+            result.users = users
+
+            return result
         }
         catch (e) {
             return e
         }
     }
 
-    async GetAllUsers(){
+    async DeleteUser (query) {
         try{
-            return await this.userProvider.GetAllUsers()
+            return await this.model.deleteOne(query)
         }
         catch (e) {
             return e
         }
     }
-
-    async DeleteUser (user) {
-        try{
-            const isUser = await this.userProvider.IsRecordExists(user)
-            if(!isUser){
-                throw new Error(errorMessages.RoleNotExist)
-            }
-            return await this.userProvider.DeleteUser(user)
-        }
-        catch (e) {
-            throw e
-        }
-    }
-
 }

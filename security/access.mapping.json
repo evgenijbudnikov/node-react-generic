@@ -1,0 +1,72 @@
+{
+  "routes": [
+    {
+      "route":"/api/users",
+      "roles":[
+        {
+          "id": "603d39bfc6bc392518af6acf",
+          "name": "admin",
+          "permissions" :[
+            {
+              "read": "read"
+            },
+            {
+              "write": "write"
+            },
+            {
+              "delete": "delete"
+            },
+            {
+              "create": "create"
+            }
+          ]
+        },
+        {
+          "id": "604585e5ed889a26d4204067",
+          "name": "manager",
+          "permissions" :[
+            {
+              "read": "read"
+            },
+            {
+              "write": "write"
+            }
+          ]
+        },
+        {
+          "id": "6047e7e03b674f23b02a7380",
+          "name": "user",
+          "permissions" :[
+            {
+              "read": "read self"
+            },
+            {
+              "write": "write self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route":"/api/admin/roles",
+      "roles": [{
+        "id": "603d39bfc6bc392518af6acf",
+        "name": "admin",
+        "permissions" :[
+          {
+            "read": "read"
+          },
+          {
+            "write": "write"
+          },
+          {
+            "delete": "delete"
+          },
+          {
+            "create": "create"
+          }
+        ]
+      }]
+    }
+  ]
+}

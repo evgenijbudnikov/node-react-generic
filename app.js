@@ -4,6 +4,7 @@ const mongoConnect = require('./loaders/mongoconnect.js')
 const apiRouter = require('./routes/api.router')
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger/swagger.options.json')
+const routeLoader = require('./loaders/route.loader')
 
 
 const app = express()
@@ -19,6 +20,8 @@ const PORT = config.get('port') || 5000
 async function start() {
     try{
         await mongoConnect()
+        await routeLoader(app)
+
     }
     catch(e){
         console.log('server error', e.message)

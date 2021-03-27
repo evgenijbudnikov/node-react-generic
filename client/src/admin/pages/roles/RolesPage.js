@@ -1,11 +1,10 @@
 import React from 'react'
 import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
-import {AdminNavBar} from "../../components/AdminNavBar"
 import {useState} from "react"
 import {RoleList} from "../../components/roles/RoleList";
 import { useHistory } from 'react-router-dom'
-import {useRepository} from "../../repository/roles.repository";
+import {useEntityRepository} from "../../../repository/entity.repository"
 
 const {useEffect} = require("react")
 
@@ -13,13 +12,15 @@ const {useEffect} = require("react")
 
 export const RolesPage = () => {
 
-    const [sendRoleGetRequest, sendRoleRequest, loading] = useRepository()
-    const [roles, setRoles] = useState()
+    const [getAll, createOrUpdate, remove, getById, loading] = useEntityRepository("/api/admin/roles")
+    const [roles, setRoles] = useState(null)
+
     const history = useHistory()
 
     const fetchRoles = async () => {
-        const result = await sendRoleGetRequest(null)
+        const result = await getAll()
         if(result){
+            console.log(result)
             setRoles(result)
         }
     }

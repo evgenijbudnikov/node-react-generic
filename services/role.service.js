@@ -1,81 +1,44 @@
-const RoleProvider = require('../provider/roles.provider')
 const errorMessages = require('../constant/error.messages')
+const Role = require('../models/Role')
+const BaseService = require('../services/base.service')
+const mongoose = require('mongoose')
 
-module.exports = class RoleService{
+
+module.exports = class RoleService extends BaseService{
 
     constructor() {
-        this.roleProvider = new RoleProvider()
-    }
-
-    async CreateRole (role) {
-        try{
-            const isRole = await this.roleProvider.IsRecordExists(role)
-            if(isRole){
-                throw new Error(errorMessages.RoleExist)
-            }
-            return await this.roleProvider.CreateRole(role)
-        }
-        catch (e) {
-            throw e
-        }
+        super(Role);
+        this.model = Role
     }
 
     async UpdateRole (query, role) {
         try{
-            const isRole = await this.roleProvider.IsRecordExists(query)
-            if(!isRole){
-                throw new Error(errorMessages.RoleNotExist)
-            }
-            return await this.roleProvider.UpdateRole(query, role)
+            const updated = await this.model.updateOne({_id: query.id}, role)
+            return updated
         }
         catch (e) {
-            throw e
+            return e
         }
     }
 
-    async DeleteRole (role) {
+    async CreateRole (role) {
         try{
-            const isRole = await this.roleProvider.IsRecordExists(role)
-            if(!isRole){
-                throw new Error(errorMessages.RoleNotExist)
-            }
-            return await this.roleProvider.DeleteRole(role)
+            const newRole = new Role({roleName : role.roleName})
+            return await newRole.save(role)
         }
         catch (e) {
-            throw e
+            return e
         }
     }
 
-    async GetRoleById (id) {
+    async DeleteRole (query) {
         try{
-            const role = await this.roleProvider.GetById(id)
-
-            if(!role){
-                throw new Error(errorMessages.RoleNotExist)
-            }
-            return role
+            return await this.model.deleteOne({_id: query.id})
         }
         catch (e) {
-            throw e
+            return e
         }
     }
 
-    async GetRoleByName(name) {
-        try{
-            return await this.roleProvider.GetByFieldFilter("roleName", name)
-        }
-        catch (e) {
-            throw e
-        }
-    }
-
-    async GetAllRoles(){
-        try{
-            return await this.roleProvider.GetAll()
-        }
-        catch (e) {
-            throw e
-        }
-    }
-
+    //Here could be added more role specific methods
 }

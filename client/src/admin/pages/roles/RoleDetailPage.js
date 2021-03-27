@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import {useMessage} from "../../../hooks/message.hook";
-import {useRepository} from "../../repository/roles.repository"
+import {useEntityRepository} from "../../../repository/entity.repository";
 
 
 export const RoleDetailPage = ({role}) => {
 
+    const [getAll, createOrUpdate, remove, getById, loading] = useEntityRepository("/api/admin/roles")
+
     const roleId = useParams().id
-    const [sendRoleGetRequest, sendRoleRequest, loading] = useRepository()
 
     const message = useMessage()
     const [form, setForm] = useState({roleName: ''})
@@ -22,7 +23,8 @@ export const RoleDetailPage = ({role}) => {
     }
 
     const saveHandler = async () => {
-        const result = await sendRoleRequest(roleId, {...form})
+        const id = roleId === undefined ? '' : roleId
+        const result = await createOrUpdate(id, {...form})
         if(result){
             history.push('/admin/roles')
         }
@@ -33,7 +35,7 @@ export const RoleDetailPage = ({role}) => {
     }
 
     const fetchRole = async () => {
-        const result = await sendRoleGetRequest(roleId)
+        const result = await getById(roleId)
         if(result){
             setForm({...form, roleName: result.roleName})
         }

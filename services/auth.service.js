@@ -1,43 +1,18 @@
-const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const config = require('config')
-const UserProvider = require('../provider/user.provider')
+const UserService = require('../services/user.service')
+
 
 module.exports = class AuthService {
 
+    constructor() {
+        this.userService = new UserService()
+    }
+
     async Register(userModel){
         try{
-            const provider = new UserProvider()
-            const candidate = await provider.GetOneByField({ email: userModel.email })
-
-            if(candidate){
-                throw ({
-                    status:400,
-                    message:'user with this email already exists'
-                })
-                return
-            }
-
-            const hashedPassword = await bcrypt.hash(userModel.password, 12)
-
-            const newUser = new User({
-                email: userModel.email,
-                password: hashedPassword
-            })
-
-            const createdUser = await newUser.save()
-            const serializedUser = createdUser.toObject({ getters: true })
-
-            if(!serializedUser.id){
-                throw ({
-                    status:400,
-                    message:'Error while creating user'
-                })
-                return
-            }
-
-            return createdUser
+            return await this.userService.CreateUser(userModel)
         }
         catch (e) {
             console.log(e.message)
@@ -48,9 +23,7 @@ module.exports = class AuthService {
     async Login(email, password){
 
         try{
-
-            const provider = new UserProvider()
-            const user = await provider.GetOneByField({ email: email })
+            const user = await this.userService.GetOneByField({ email: email })
 
             if(!user){
                 throw ({ status:400, message:`User email ${email} or password is incorrect.`})
