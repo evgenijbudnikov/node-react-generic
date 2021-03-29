@@ -1,11 +1,15 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import M from "materialize-css";
+import {useEntityRepository} from "../../../repository/entity.repository";
 
 
 
 export const UserList = (props) => {
 
+    const [userToDelete, setUserToDelete] = useState({})
+    const [deleteWindow, setDeleteWindow] = useState()
+    const [getAll, createOrUpdate, remove, getById, loading] = useEntityRepository("/api/users")
 
     useEffect(() => {
         const elements = document.querySelectorAll('select')
@@ -15,19 +19,33 @@ export const UserList = (props) => {
         console.log('effect')
     },[props.users])
 
-    //to={`/admin/users/${user._id}`}
     if(!props.users || props.users.length == 0){
         return <p className="center">'No users'</p>
     }
-    const modalHandler = (id, e) => {
+
+    const modalStaticHandler = (user, e) => {
         e.preventDefault()
-        //const id = window.location.href.split('#')[1]
-        console.log(id)
-        const modal = document.getElementById(id)
-        //console.log(modal)
+        setUserToDelete(user)
+
+        console.log(user._id)
+        const modal = document.getElementById("deleteModal")
         const instance = M.Modal.getInstance(modal)
-        //console.log(instance)
+        setDeleteWindow(instance)
         instance.open()
+    }
+
+    const removeHandler = async () => {
+        const result = await remove(userToDelete._id)
+
+        if(result){
+            deleteWindow.close()
+            props.handler()
+            console.log('deleted')
+        }
+    }
+
+    const cancelHandler = async () => {
+        deleteWindow.close()
     }
 
     return(
@@ -46,40 +64,49 @@ export const UserList = (props) => {
                                 </Link>
                             </span>
 
-                        <div className="user-role-list-email-container">
-                            <div>
-                                <span>
-                                {
-                                    user.roles.map((role) => {
-                                        return(
-                                            <span style={{paddingLeft:5+'px'}}>{role.roleName+';' }</span>
-                                        )
-                                    })
-                                }
-                                </span>
+                            <div className="user-role-list-email-container">
+                                <div>
+                                    <span>
+                                    {
+                                        user.roles.map((role) => {
+                                            return(
+                                                <span style={{paddingLeft:5+'px'}}>{role.roleName+';' }</span>
+                                            )
+                                        })
+                                    }
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                            <Link to="#" onClick={(e) => modalHandler(user._id, e)} className="secondary-content">
+                            <Link to="#" onClick={(e) => modalStaticHandler(user, e)} className="secondary-content">
                                 <i className="material-icons">
                                     delete_forever
                                 </i>
                             </Link>
-                            <div id={user._id} className="modal">
-                                <div className="modal-content">
-                                    <h4>Modal Header</h4>
-                                    <p>A bunch of text</p>
-                                </div>
-                                <div className="modal-footer">
-                                    <a href="/admin/users" className="modal-close waves-effect waves-green btn-flat">Agree</a>
-                                </div>
-                            </div>
                         </a>
                     )
                 })
             }
+            <div id="deleteModal" className="modal">
+                <div className="modal-content">
+                    <h4>Delete User</h4>
+                    <p>Are you sure you want to delete <b>{userToDelete.email}</b>?</p>
+                </div>
+                <div className="modal-footer">
+                    <button
+                        className="waves-effect waves-light btn"
+                        style={{marginRight: 15, backgroundColor:"#ffab40"}}
+                        onClick={removeHandler}>
+                        Ok
+                    </button>
+                    <button
+                        className="waves-effect waves-light btn"
+                        style={{marginRight: 15, backgroundColor:"#616161"}}
+                        onClick={cancelHandler}>
+                        Cancel
+                    </button>
+                </div>
+            </div>
         </div>
-
-
 
     )
 }

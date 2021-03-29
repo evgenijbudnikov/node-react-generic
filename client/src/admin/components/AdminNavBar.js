@@ -21,6 +21,7 @@ export const AdminNavBar = () => {
     return(
 
             <div className="admin-nav">
+                <h5 style={{marginLeft:50+'px', fontSize:20+'px', marginTop:27+'px'}}>Site Resources</h5>
                 <div className="admin-nav-container">
                     <div className="admin-nav-item">
 
@@ -37,6 +38,14 @@ export const AdminNavBar = () => {
                                 person
                             </i>
                             Users
+                        </NavLink>
+                    </div>
+                    <div className="admin-nav-item">
+                        <NavLink onClick={toggleClass}    to="/admin/resources">
+                            <i className="material-icons-edit" style={{marginRight:5+'px'}}>
+                                data_usage
+                            </i>
+                            Resources
                         </NavLink>
                     </div>
                     <div className="admin-nav-item">

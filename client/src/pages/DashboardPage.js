@@ -1,9 +1,9 @@
 import React, {useContext} from 'react'
 import { useState } from 'react'
-import { useHttp } from '../hooks/http.hook'
 import {UserDashboard} from '../components/UserDashboard'
 import Can from "../components/Can";
 import {useSelector} from "react-redux";
+import {useEntityRepository} from "../repository/entity.repository";
 
 const {useEffect, useCallback} = require("react");
 
@@ -11,34 +11,22 @@ const {useEffect, useCallback} = require("react");
 export const DashboardPage = () => {
 
     const [userData, setUserData] = useState()
-    const [loading, request] = useHttp()
-
-    const token = useSelector(({token}) => token)
+    const [getAll, createOrUpdate, remove, getById] = useEntityRepository("/api/users")
+    const loading = useSelector(({loading}) => loading)
     const userId = useSelector(({userId}) => userId)
 
     const role = 'visitor'
-    const fetchUserInfo = useCallback(async () => {
-        try {
-            const data = await request('/api/users/' + userId, 'GET', null, {
-                Authorization: `Bearer ${token}`
-            })
-
-            if(data && !data.status){
-                setUserData(data)
-                //set user info to redux store here
-
-            }
-
+    const fetchUserInfo = async () => {
+        const data = await getById(userId)
+        if(data && !data.status){
+            setUserData(data)
         }
-        catch (e) {
-            throw e
-        }
-    }, [token, request])
+    }
 
 
-    useEffect(() => {
-        fetchUserInfo()
-    }, [fetchUserInfo])
+    useEffect(async () => {
+        await fetchUserInfo()
+    }, [])
 
 
     if (loading) {

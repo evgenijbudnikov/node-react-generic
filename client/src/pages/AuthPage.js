@@ -16,8 +16,11 @@ export const AuthPage = () => {
     const history = useHistory()
     const dispatch = useDispatch()
 
+    const loading = useSelector(({loading}) => loading)
+
+
     const auth = useAuth()
-    const [loading, request, error, clearError] = useHttp()
+    const [request, error, clearError] = useHttp()
     const [form, setForm] = useState({
         email:'', password:''
     })

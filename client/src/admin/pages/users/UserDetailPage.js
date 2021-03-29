@@ -1,22 +1,21 @@
-import React, {useEffect, useContext, useState, useCallback} from 'react'
-import {useHttp} from "../../../hooks/http.hook"
+import React, {useEffect, useState, useCallback} from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import {useSelector} from "react-redux";
 import {useMessage} from "../../../hooks/message.hook";
+import {useEntityRepository} from "../../../repository/entity.repository";
 
 
 
-export const UserDetailPage = ({user}) => {
+export const UserDetailPage = () => {
 
     const userId = useParams().id
 
     const message = useMessage()
     const [form, setForm] = useState({email: ''})
-    const [loading, request, error, clearError] = useHttp()
-    const [method, setMethod] = useState()
+    const [getAll, createOrUpdate, remove, getById] = useEntityRepository("/api/users")
+    const loading = useSelector(({loading}) => loading)
 
     const history = useHistory()
-    const token = useSelector(({token}) => token)
 
     const cancelHandler = () => {
         redirectToUsers()
@@ -27,20 +26,10 @@ export const UserDetailPage = ({user}) => {
     }
 
     const saveHandler = async () => {
-        try{
-
-            const uri = userId ? '/api/users?_id='+userId : '/api/users'
-
-            const result = await request(uri, method, {...form}, {
-                Authorization : `Bearer ${token}`
-            })
-
-            if(result){
-                redirectToUsers()
-            }
-        }
-        catch (e) {
-            throw e
+        const id = userId === undefined ? '' : userId
+        const result = await createOrUpdate(id, {...form})
+        if(result){
+            history.push('/admin/users')
         }
     }
 
@@ -49,34 +38,18 @@ export const UserDetailPage = ({user}) => {
         setForm({...form, [event.target.name]: event.target.value})
     }
 
-    const fetchUser = useCallback(async () => {
-        try{
-            //const roleId = role._id
-            const fetchedUser = await request('/api/users/' + userId, 'GET', null, {
-                Authorization : `Bearer ${token}`
-            })
-
-            if(fetchedUser){
-                setForm({...form, email: fetchedUser.email})
-            }
+    const fetchUser = async () => {
+        const fetchedUser = await getById(userId)
+        if(fetchedUser){
+            setForm({...form, email: fetchedUser.email})
         }
-        catch (e) {
-            throw e
-        }
-    }, [token, request])
+    }
 
     useEffect(async () => {
-        const requestMethod = (userId) ? ('PUT') : ('POST')
-
-        setMethod(requestMethod)
-
         if(userId){
-            fetchUser()
+            await fetchUser()
         }
-        message(error)
-        clearError()
-
-    },[fetchUser, error, message, clearError])
+    },[])
 
 
     return(

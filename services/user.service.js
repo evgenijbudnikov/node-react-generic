@@ -82,7 +82,7 @@ module.exports = class UserService extends BaseService{
 
     async DeleteUser (query) {
         try{
-            return await this.model.deleteOne(query)
+            return await this.model.deleteOne({ _id: query.id })
         }
         catch (e) {
             return e

@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import {useMessage} from "../../../hooks/message.hook";
 import {useEntityRepository} from "../../../repository/entity.repository";
+import {useSelector} from "react-redux";
 
 
 export const RoleDetailPage = ({role}) => {
 
-    const [getAll, createOrUpdate, remove, getById, loading] = useEntityRepository("/api/admin/roles")
+    const [getAll, createOrUpdate, remove, getById] = useEntityRepository("/api/admin/roles")
+    const loading = useSelector(({loading}) => loading)
 
     const roleId = useParams().id
 

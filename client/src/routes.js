@@ -11,8 +11,6 @@ import {UsersPage} from "./admin/pages/users/UsersPage";
 import {RolesPage} from "./admin/pages/roles/RolesPage";
 import {ArticlesManagementPage} from "./admin/pages/articles/ArticlesManagePage";
 import {RoleDetailPage} from "./admin/pages/roles/RoleDetailPage";
-import {DeleteRolePage} from "./admin/pages/roles/DeleteRolePage";
-import {DeleteUserPage} from "./admin/pages/users/DeleteUserPage";
 import {UserDetailPage} from "./admin/pages/users/UserDetailPage";
 
 export const useRoutes = isAuthenticated => {
@@ -21,14 +19,6 @@ export const useRoutes = isAuthenticated => {
             <Switch>
                 <Route exact path="/admin/articles" exact={true}>
                     <ArticlesManagementPage />
-                </Route>
-
-                <Route exact path="/admin/roles/delete/:id" exact={true}>
-                    <DeleteRolePage />
-                </Route>
-
-                <Route exact path="/admin/users/delete/:id" exact={true}>
-                    <DeleteUserPage />
                 </Route>
 
                 <Route exact path="/admin/users/add" exact={true}>

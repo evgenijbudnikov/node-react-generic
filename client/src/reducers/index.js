@@ -1,4 +1,11 @@
-import {ON_SIGN_IN, ON_SIGN_UP, ON_USER_DASHBOARD_LOADED, ON_SIGN_OUT} from "../action-types"
+import {
+    ON_SIGN_IN,
+    ON_SIGN_UP,
+    ON_USER_DASHBOARD_LOADED,
+    ON_SIGN_OUT,
+    ON_ROLES_LOADED,
+    ON_USERS_LOADED, ON_LOADING_PROGRESS, ON_LOADING
+} from "../action-types"
 
 const storageName = 'userData'
 const data = JSON.parse(localStorage.getItem(storageName))
@@ -9,11 +16,12 @@ const initialState = {
     login: {},
     logout: {},
     isAuthenticated: (data) ? true : false,
-    role: null
+    role: null,
+    roleList: {},
+    userList: {},
+    progress: 0,
+    loading: false
 }
-
-//console.log(data)
-//console.log('isAuthenticated: ' +data.isAuthenticated)
 
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -28,6 +36,22 @@ export const reducer = (state = initialState, action) => {
         }
         case ON_USER_DASHBOARD_LOADED: {
 
+        }
+        case ON_ROLES_LOADED: {
+            return {...state,
+                roleList: action.payload}
+        }
+        case ON_LOADING_PROGRESS: {
+            return {...state,
+                progress: action.payload}
+        }
+        case ON_LOADING: {
+            return {...state,
+                loading: action.payload}
+        }
+        case ON_USERS_LOADED: {
+            return {...state,
+                userList: action.payload.users}
         }
         case ON_SIGN_OUT: {
             return {...state,

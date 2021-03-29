@@ -1,27 +1,24 @@
 import {useState, useCallback, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
-import {LoaderContext} from "../context/LoaderContext"
 import {useAuth} from "./auth.hook"
 import {useDispatch, useSelector} from "react-redux"
-import {onSignOut} from "../actions"
+import {onLoading, onLoadingProgress, onSignOut} from "../actions"
 
 export const useHttp = () => {
 
-    const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
     const history = useHistory()
     const auth = useAuth()
 
-    const {setMax, setValue, value} = useContext(LoaderContext)
     const dispatch = useDispatch()
     const token = useSelector(({token}) => token)
 
 
     const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
 
-        setLoading(true)
-        setValue(1)
+        dispatch(onLoading(true))
+        dispatch(onLoadingProgress(1))
 
         try {
 
@@ -31,14 +28,15 @@ export const useHttp = () => {
                 body = JSON.stringify(body)
                 headers['Content-Type'] = 'application/json'
             }
+
             const response = await fetch(url, {method, body, headers})
 
-            setValue(20)
-            //const data = await response.json()
+            dispatch(onLoadingProgress(20))
+
             const reader = response.body.getReader()
 
-            const contentLength = +response.headers.get('Content-Length')
-            setMax(contentLength)
+            //const contentLength = +response.headers.get('Content-Length')
+            //setMax(contentLength)
 
             let receivedLength = 0
             let chunks = []
@@ -71,15 +69,14 @@ export const useHttp = () => {
                     continue
                 }
                 const progress = Math.round((i /receivedLength) * 100)
-                setValue(progress)
-
+                dispatch(onLoadingProgress(progress))
             }
 
             let result = new TextDecoder("utf-8").decode(chunksAll)
-            let commits = JSON.parse(result);
+            let commits = JSON.parse(result)
 
-            setLoading(false)
-            setValue(100)
+            dispatch(onLoading(false))
+            dispatch(onLoadingProgress(100))
 
             if (!response.ok) {
                 setError(commits)
@@ -93,7 +90,7 @@ export const useHttp = () => {
             return commits
 
         } catch (e) {
-            setLoading(false)
+            dispatch(onLoading(false))
             setError([e.message])
             //throw e
         }
@@ -101,5 +98,5 @@ export const useHttp = () => {
 
     const clearError = useCallback(() => setError(null), [])
 
-    return [ loading, request, error, clearError ]
+    return [ request, error, clearError ]
 }

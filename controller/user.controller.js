@@ -5,9 +5,9 @@ module.exports = {
 
     getUserById: async (req, res) => {
         try {
-            const userId = req.params.userId
+            const userId = req.query.id
             const service = new UserService()
-            const user = await service.GetUserById(userId)
+            const user = await service.GetById(userId)
 
             //console.log(req.params)
             //console.log(user)
@@ -44,7 +44,7 @@ module.exports = {
 
     getAllUsers: async (req, res, next) => {
         try {
-            if(req.query.userId){
+            if(req.query.id){
                 return next()
             }
             const service = new UserService()

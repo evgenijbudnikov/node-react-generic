@@ -3,7 +3,7 @@ import {useHttp} from "../hooks/http.hook";
 
 export const useEntityRepository = (routeUrl) => {
 
-    const [loading, request] = useHttp()
+    const [request] = useHttp()
 
     const getAll = async() => {
         try{
@@ -96,5 +96,5 @@ export const useEntityRepository = (routeUrl) => {
         }
     }
 
-    return [getAll, createOrUpdate, remove, getById, loading]
+    return [getAll, createOrUpdate, remove, getById]
 }
