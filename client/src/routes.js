@@ -12,11 +12,20 @@ import {RolesPage} from "./admin/pages/roles/RolesPage";
 import {ArticlesManagementPage} from "./admin/pages/articles/ArticlesManagePage";
 import {RoleDetailPage} from "./admin/pages/roles/RoleDetailPage";
 import {UserDetailPage} from "./admin/pages/users/UserDetailPage";
+import {ResourcesPage} from "./admin/pages/resources/ResourcePage";
+import {ResourceDetailPage} from "./admin/pages/resources/ResourceDetailPage";
+
 
 export const useRoutes = isAuthenticated => {
     if(isAuthenticated){
         return(
             <Switch>
+                <Route exact path="/admin/resources/:id" exact={true}>
+                    <ResourceDetailPage />
+                </Route>
+                <Route exact path="/admin/resources" exact={true}>
+                    <ResourcesPage />
+                </Route>
                 <Route exact path="/admin/articles" exact={true}>
                     <ArticlesManagementPage />
                 </Route>

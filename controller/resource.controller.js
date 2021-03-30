@@ -5,7 +5,7 @@ module.exports = {
 
     getAllRoutes: async (req, res, next) => {
         try {
-            if(req.query.roleId){
+            if(req.query.id){
                 return next()
             }
             const service = new RoutService()
@@ -23,7 +23,7 @@ module.exports = {
 
     getRouteById: async (req, res) => {
         try {
-            const id = req.query.routeId
+            const id = req.query.id
             const service = new RoutService()
             const route = await service.GetById(id)
 

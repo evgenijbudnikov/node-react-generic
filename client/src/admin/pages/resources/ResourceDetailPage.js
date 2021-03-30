@@ -3,18 +3,16 @@ import { useHistory, useParams } from 'react-router-dom'
 import {useSelector} from "react-redux";
 import {useMessage} from "../../../hooks/message.hook";
 import {useEntityRepository} from "../../../repository/entity.repository";
-import {UsersPage} from "./UsersPage";
 
 
-export const UserDetailPage = () => {
+export const ResourceDetailPage = () => {
 
-    const userId = useParams().id
+    const resourceId = useParams().id
 
     const message = useMessage()
-    const [form, setForm] = useState({email: ''})
-    const [getAll, createOrUpdate, remove, getById] = useEntityRepository("/api/users")
+    const [form, setForm] = useState({resource: ''})
+    const [getAll, createOrUpdate, remove, getById] = useEntityRepository("/api/admin/resources")
     const loading = useSelector(({loading}) => loading)
-    const usersPage = UsersPage()
 
     const history = useHistory()
 
@@ -23,45 +21,39 @@ export const UserDetailPage = () => {
     }
 
     const redirectToUsers = async () => {
-        history.push('/admin/users')
+        history.push('/admin/resources')
     }
 
     const saveHandler = async () => {
-        const id = userId === undefined ? '' : userId
+        const id = resourceId === undefined ? '' : resourceId
         const result = await createOrUpdate(id, {...form})
         if(result){
-            history.push('/admin/users')
+            history.push('/admin/resources')
         }
     }
 
-
-    const changeUserHandler = (event) => {
-        setForm({...form, [event.target.name]: event.target.value})
-    }
-
-    const fetchUser = async () => {
-        const fetchedUser = await getById(userId)
-        if(fetchedUser){
-            setForm({...form, email: fetchedUser.email})
+    const fetchResource = async () => {
+        const fetchedResource = await getById(resourceId)
+        if(fetchedResource){
+            setForm({...form, resource: fetchedResource.resource})
         }
     }
 
     useEffect(async () => {
-        if(userId){
-            await fetchUser()
+        if(resourceId){
+            await fetchResource()
         }
     },[])
 
 
     return(
         <>
-            <h2>User</h2>
+            <h2>Resource</h2>
 
             <div className="input-field">
-                <input id="email" type="text" name="email" className="yellow-input" value={form.email}
-                       onChange={changeUserHandler}
+                <input id="resource" type="text" name="resource" className="yellow-input" value={form.resource} disabled={true}
                 ></input>
-                <label className="active" htmlFor="email">Email:</label>
+                <label className="active" htmlFor="resource">Resource:</label>
             </div>
             <div className="card-action" style={{marginTop: 25}}>
                 <button

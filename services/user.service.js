@@ -60,18 +60,21 @@ module.exports = class UserService extends BaseService{
         }
     }
 
-    async GetAllUsers() {
+    async GetAllUsers(searchTerm = "") {
         try{
 
             let result = {}
 
-            let [roles, users] = await Promise.all([
-                this.roleProvider.GetAll(),
-                this.model.find().populate({path:'roles', model:'Role'})
+            const searchFilter = searchTerm ? { email: { $regex: searchTerm, $options: "i" }}: {}
+
+            let [users, roles] = await Promise.all([
+                this.model.find(searchFilter).populate({path:'roles', model:'Role'}),
+                this.roleProvider.GetAll()
             ]);
 
-            result.roles = roles
             result.users = users
+            result.roles = roles
+            result.count = users.length
 
             return result
         }

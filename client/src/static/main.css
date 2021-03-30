@@ -1,3 +1,10 @@
+body {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+body::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+}
 .main-container {
     min-height: 100vh; /* will cover the 100% of viewport */
     overflow: hidden;
@@ -325,3 +332,19 @@ h4{
 }
 
 .footer-copyright{background: #f9f9f9 !important;}
+
+.admin-users-header{
+    min-height: 60px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    background-color: #fafbfc;
+    display: inline-flex;
+    align-items: center;
+}
+.admin-users-header input {
+    width: 200px !important;
+    margin-left: 25px !important;
+    margin-right: 25px !important;
+    height: 40px !important;
+}

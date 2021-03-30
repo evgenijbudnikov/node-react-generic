@@ -4,7 +4,7 @@ import {
     ON_USER_DASHBOARD_LOADED,
     ON_SIGN_OUT,
     ON_ROLES_LOADED,
-    ON_USERS_LOADED, ON_LOADING_PROGRESS, ON_LOADING
+    ON_USERS_LOADED, ON_LOADING_PROGRESS, ON_LOADING, ON_ACTIVE_LOADING
 } from "../action-types"
 
 const storageName = 'userData'
@@ -20,7 +20,8 @@ const initialState = {
     roleList: {},
     userList: {},
     progress: 0,
-    loading: false
+    loading: true,
+    isLoadingActive: false
 }
 
 export const reducer = (state = initialState, action) => {
@@ -52,6 +53,11 @@ export const reducer = (state = initialState, action) => {
         case ON_USERS_LOADED: {
             return {...state,
                 userList: action.payload.users}
+        }
+        case ON_ACTIVE_LOADING: {
+            console.log('reducer '+action.payload)
+            return {...state,
+                isLoadingActive: action.payload}
         }
         case ON_SIGN_OUT: {
             return {...state,

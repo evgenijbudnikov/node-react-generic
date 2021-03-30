@@ -6,4 +6,5 @@ export const ON_USERS_LOADED = 'ON_USERS_LOADED'
 export const ON_SIGN_OUT = 'ON_SIGN_OUT'
 export const ON_LOADING_PROGRESS = 'ON_LOADING_PROGRESS'
 export const ON_LOADING = 'ON_LOADING'
+export const ON_ACTIVE_LOADING = 'ON_ACTIVE_LOADING'
 

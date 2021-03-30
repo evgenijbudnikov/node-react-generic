@@ -5,9 +5,15 @@ export const useEntityRepository = (routeUrl) => {
 
     const [request] = useHttp()
 
-    const getAll = async() => {
+    const getAll = async(searchTerm = null, isActiveProgress = true) => {
         try{
-            const entityResult = await request(routeUrl, 'GET')
+            let updateUrl = routeUrl
+
+            if(searchTerm){
+                updateUrl =  appendQuery(routeUrl, 'searchTerm', searchTerm)
+            }
+
+            const entityResult = await request(updateUrl, 'GET', null, isActiveProgress)
 
             if(entityResult && !entityResult.status){
                 return entityResult

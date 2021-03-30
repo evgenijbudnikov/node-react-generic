@@ -6,4 +6,6 @@ const schema = new Schema({
     roles: [{type:Schema.Types.ObjectId, ref:'roles'}]
 })
 
+schema.index({email: 'text'})
+
 module.exports = model('User', schema)

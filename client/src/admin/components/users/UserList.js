@@ -49,7 +49,7 @@ export const UserList = (props) => {
     }
 
     return(
-        <div className="collection">
+        <>
             {
                 props.users.users.map((user)=>{
                     return(
@@ -106,7 +106,7 @@ export const UserList = (props) => {
                     </button>
                 </div>
             </div>
-        </div>
+        </>
 
     )
 }

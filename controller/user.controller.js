@@ -48,7 +48,10 @@ module.exports = {
                 return next()
             }
             const service = new UserService()
-            const users = await service.GetAllUsers()
+
+            const searchTerm = req.query.searchTerm || ""
+
+            const users = await service.GetAllUsers(searchTerm)
 
             await res.status(constants.OK)
                 .json(users)

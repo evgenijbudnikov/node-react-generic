@@ -13,8 +13,9 @@ import {Loader} from "../../../components/Loader";
 
 export const RolesPage = () => {
 
-    const [getAll, createOrUpdate, remove, getById, loading] = useEntityRepository("/api/admin/roles")
+    const [getAll, createOrUpdate, remove, getById] = useEntityRepository("/api/admin/roles")
     const [roles, setRoles] = useState(null)
+    const loading = useSelector(({loading}) => loading)
     const dispatch = useDispatch()
     const previousRoles = useSelector(({roleList}) => roleList)
 

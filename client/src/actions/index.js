@@ -4,7 +4,7 @@ import {
     ON_USER_DASHBOARD_LOADED,
     ON_SIGN_OUT,
     ON_ROLES_LOADED,
-    ON_USERS_LOADED, ON_LOADING_PROGRESS, ON_LOADING
+    ON_USERS_LOADED, ON_LOADING_PROGRESS, ON_LOADING, ON_ACTIVE_LOADING
 } from "../action-types"
 
 export const onSignIn = (payload) => ({type: ON_SIGN_IN, payload})
@@ -15,3 +15,4 @@ export const onUsersLoaded = (payload) => ({type: ON_USERS_LOADED, payload})
 export const onLoadingProgress = (payload) => ({type: ON_LOADING_PROGRESS, payload})
 export const onLoading = (payload) => ({type: ON_LOADING, payload})
 export const onSignOut = () => ({type: ON_SIGN_OUT})
+export const onActiveLoading = (payload) => ({type: ON_ACTIVE_LOADING, payload})
